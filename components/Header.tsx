@@ -18,27 +18,27 @@ export const Header: React.FC = () => {
             <span className="text-green-600">my</span>
           </span>
         </Link>
-        
+
         <nav className="flex items-center gap-2">
           <div className="hidden sm:flex items-center gap-1 mr-2">
-             <Link to="/about">
-                <Button variant="ghost" className="text-slate-600 hover:text-slate-900">
-                  <Info className="w-4 h-4 mr-2" />
-                  About
-                </Button>
-             </Link>
-             <Link to="/generate">
-                <Button variant="ghost" className="text-slate-600 hover:text-slate-900">
-                  <Database className="w-4 h-4 mr-2" />
-                  Database
-                </Button>
-             </Link>
+            <Link to="/about">
+              <Button variant="ghost" className="text-slate-600 hover:text-slate-900">
+                <Info className="w-4 h-4 mr-2" />
+                About
+              </Button>
+            </Link>
+            <Link to="/generate">
+              <Button variant="ghost" className="text-slate-600 hover:text-slate-900">
+                <Database className="w-4 h-4 mr-2" />
+                Database
+              </Button>
+            </Link>
           </div>
-          
+
           <div className="h-6 w-px bg-slate-200 mx-1 hidden sm:block"></div>
-          
+
           <AuthButton />
-          
+
           <Link to="/generate" className="sm:hidden">
             <Button variant="ghost" size="icon">
               <Database className="w-5 h-5" />

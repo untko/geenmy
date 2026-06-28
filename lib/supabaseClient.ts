@@ -1,7 +1,8 @@
 import { createClient, SupabaseClient, User, Session } from '@supabase/supabase-js';
 
 // Note: In a real Next.js app, these would be process.env.NEXT_PUBLIC_SUPABASE_URL
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder-project.supabase.co';
+const supabaseUrl =
+  process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder-project.supabase.co';
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'placeholder-key';
 
 const isMock = supabaseUrl === 'https://placeholder-project.supabase.co';
@@ -12,8 +13,8 @@ if (!isMock) {
   client = createClient(supabaseUrl, supabaseKey);
 } else {
   // --- MOCK IMPLEMENTATION FOR TESTING ---
-  console.log("⚠️ Using Mock Supabase Client. Login will be simulated locally.");
-  
+  console.log('⚠️ Using Mock Supabase Client. Login will be simulated locally.');
+
   const MOCK_USER: User = {
     id: 'mock-user-123',
     aud: 'authenticated',
@@ -28,7 +29,7 @@ if (!isMock) {
     user_metadata: {
       avatar_url: 'https://ui-avatars.com/api/?name=Test+User&background=0f172a&color=fff',
       full_name: 'Test User',
-      email: 'tester@example.com'
+      email: 'tester@example.com',
     },
     created_at: new Date().toISOString(),
     updated_at: new Date().toISOString(),
@@ -62,9 +63,15 @@ if (!isMock) {
       this.listeners.push(callback);
       // Fire immediately with current state
       callback(this._session ? 'SIGNED_IN' : 'SIGNED_OUT', this._session);
-      return { data: { subscription: { unsubscribe: () => {
-        this.listeners = this.listeners.filter(l => l !== callback);
-      }}}};
+      return {
+        data: {
+          subscription: {
+            unsubscribe: () => {
+              this.listeners = this.listeners.filter((l) => l !== callback);
+            },
+          },
+        },
+      };
     }
 
     async signInWithOAuth() {
@@ -84,7 +91,7 @@ if (!isMock) {
     }
 
     private notify(event: string) {
-      this.listeners.forEach(cb => cb(event, this._session));
+      this.listeners.forEach((cb) => cb(event, this._session));
     }
   }
 

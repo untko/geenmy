@@ -13,7 +13,9 @@ export const AuthButton: React.FC = () => {
   useEffect(() => {
     // Check active session
     const getSession = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
       setUser(session?.user ?? null);
       setLoading(false);
     };
@@ -21,7 +23,9 @@ export const AuthButton: React.FC = () => {
     getSession();
 
     // Listen for auth changes
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
       setUser(session?.user ?? null);
     });
 
@@ -33,8 +37,8 @@ export const AuthButton: React.FC = () => {
       await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
-          redirectTo: window.location.origin
-        }
+          redirectTo: window.location.origin,
+        },
       });
     } catch (error) {
       console.error('Error logging in:', error);
@@ -57,7 +61,11 @@ export const AuthButton: React.FC = () => {
 
   if (!user) {
     return (
-      <Button onClick={handleLogin} size="sm" className="bg-slate-900 text-white hover:bg-slate-800">
+      <Button
+        onClick={handleLogin}
+        size="sm"
+        className="bg-slate-900 text-white hover:bg-slate-800"
+      >
         Log In
       </Button>
     );
@@ -69,12 +77,12 @@ export const AuthButton: React.FC = () => {
   const initials = email.slice(0, 2).toUpperCase();
 
   return (
-    <DropdownMenu 
+    <DropdownMenu
       trigger={
-        <Avatar 
-          src={avatarUrl} 
-          fallback={initials} 
-          className="hover:ring-2 hover:ring-slate-200 transition-all cursor-pointer" 
+        <Avatar
+          src={avatarUrl}
+          fallback={initials}
+          className="hover:ring-2 hover:ring-slate-200 transition-all cursor-pointer"
         />
       }
     >
@@ -86,7 +94,10 @@ export const AuthButton: React.FC = () => {
         <User className="mr-2 h-4 w-4" />
         Profile
       </DropdownMenuItem>
-      <DropdownMenuItem onClick={handleLogout} className="text-red-600 hover:text-red-700 hover:bg-red-50">
+      <DropdownMenuItem
+        onClick={handleLogout}
+        className="text-red-600 hover:text-red-700 hover:bg-red-50"
+      >
         <LogOut className="mr-2 h-4 w-4" />
         Log out
       </DropdownMenuItem>
