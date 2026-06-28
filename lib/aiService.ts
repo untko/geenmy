@@ -128,6 +128,50 @@ export const defineWord = async (word: string): Promise<DictionaryEntry | null> 
     }
   };
 
+export const searchHuggingFace = async (word: string): Promise<DictionaryEntry | null> => {
+    try {
+        const query = encodeURIComponent(word);
+        const response = await fetch(`https://datasets-server.huggingface.co/search?dataset=chuuhtetnaing%2Fenglish-myanmar-dictionary-dataset-mcfnlp&config=default&split=train&query=${query}`);
+
+        if (!response.ok) {
+            console.error("HF API Error:", response.status, response.statusText);
+            return null;
+        }
+
+        const json = await response.json();
+
+        if (json.rows && json.rows.length > 0) {
+            const exactMatches = json.rows.filter((r: any) => r.row.word.toLowerCase() === word.toLowerCase());
+
+            if (exactMatches.length === 0) return null;
+
+            const senses = exactMatches.map((r: any, index: number) => {
+                return {
+                    sense_id: `s${index + 1}`,
+                    pos: r.row.pos || "unknown",
+                    gloss: `HF Definition ${index + 1}`,
+                    definition: r.row.definition,
+                    examples: [],
+                    tags: ["huggingface"]
+                };
+            });
+
+            return {
+                id: crypto.randomUUID(),
+                headword: word.toLowerCase(),
+                source_lang: "en",
+                target_lang: "my",
+                phonetic_ipa: "",
+                senses: senses,
+            };
+        }
+        return null;
+    } catch (e) {
+        console.error("Error fetching from HF:", e);
+        return null;
+    }
+};
+
 export const checkAndCorrectEntry = async (entry: DictionaryEntry): Promise<DictionaryEntry | null> => {
     if (!ai) throw new Error("API Key missing");
 
